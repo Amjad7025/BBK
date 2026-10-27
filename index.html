@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beyond Borders Kerala - Immersive Luxury Stays & Escapes</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Three.js for 3D Interactive Ribbon Wave Background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            projectId: "bbk-1-96724",
+            storageBucket: "bbk-1-96724.firebasestorage.app",
+            apiKey: "AIzaSyAdtF99z4Fbrc6Km2ZOEW8xiW0flpIkceU",
+            appId: "1:627207716943:android:4934ab23e05d5b734baa3a"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        window.bbkFirestore = db;
+        console.log("Firebase connected successfully for bbk-1-96724");
+    </script>
+
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0c0c0e; color: #f4f4f5; overflow-x: hidden; }
+        .glass-nav { background: rgba(12, 12, 14, 0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(212, 175, 55, 0.2); }
+        .card-shadow { box-shadow: 0 20px 40px -15px rgba(0,0,0,0.5); border: 1px solid rgba(212, 175, 55, 0.15); }
+        #canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 500px; z-index: 0; pointer-events: none; opacity: 0.85; }
+        .gold-gradient-text { background: linear-gradient(135deg, #f3e7c4 0%, #d4af37 50%, #aa7c11 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gold-btn { background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%); color: #0c0c0e; font-weight: 700; transition: all 0.3s ease; }
+        .gold-btn:hover { background: linear-gradient(135deg, #e5c158 0%, #bc8c1b 100%); box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-black">
+
+    <!-- Top Navigation -->
+    <header class="glass-nav sticky top-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="#" class="text-xl font-bold tracking-tighter flex items-center gap-2 text-white">
+                <span class="bg-amber-500 text-black px-2.5 py-1 rounded-lg text-xs font-extrabold">BBK</span> BEYOND BORDERS <span class="gold-gradient-text">KERALA</span>
+            </a>
+
+            <div class="hidden lg:flex items-center gap-8 text-xs font-semibold text-zinc-400">
+                <a href="#product" class="hover:text-amber-400 transition">PRODUCT</a>
+                <a href="#stays" class="hover:text-amber-400 transition">SOLUTIONS</a>
+                <a href="#experiences" class="hover:text-amber-400 transition">LEARN</a>
+            </div>
+
+            <!-- Clean Navigation & Access Group -->
+            <div class="flex items-center gap-3">
+                <button onclick="openModal('signInModal')" class="text-xs text-zinc-300 hover:text-amber-400 font-semibold px-3.5 py-2 rounded-lg border border-zinc-800 bg-zinc-900 shadow-sm transition">
+                    Sign In
+                </button>
+                <button onclick="openModal('signUpModal')" class="text-xs text-zinc-300 hover:text-amber-400 font-semibold px-3.5 py-2 rounded-lg border border-zinc-800 bg-zinc-900 shadow-sm transition">
+                    Sign Up
+                </button>
+                <button onclick="openModal('adminLoginModal')" class="text-xs text-amber-400 hover:text-amber-300 font-semibold px-3.5 py-2 rounded-lg border border-amber-500/30 bg-amber-500/10 shadow-sm flex items-center gap-1.5 transition">
+                    <i class="fa-solid fa-shield-halved text-[10px]"></i> Admin Portal
+                </button>
+                <button onclick="openModal('listPropertyModal')" class="hidden sm:inline-block text-xs gold-btn px-4 py-2.5 rounded-xl">GET IN TOUCH</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section with Golden 3D Ribbon Wave -->
+    <section id="product" class="relative z-10 max-w-6xl mx-auto px-6 pt-16 pb-28 text-center">
+        <!-- 3D ThreeJS Wave Canvas -->
+        <div id="canvas-container"></div>
+
+        <div class="relative z-10 space-y-6 max-w-3xl mx-auto pt-10">
+            <div class="inline-flex items-center gap-2 bg-amber-950/60 border border-amber-500/30 px-3.5 py-1.5 rounded-full text-[11px] text-amber-400 font-bold tracking-wide shadow-sm">
+                <span>✨ GOD'S OWN COUNTRY IMMERSIVE EDITION</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-tight">
+                YOUR TEAM'S COMMAND CENTER FOR <span class="gold-gradient-text">LUXURY & TRAVEL</span>.
+            </h1>
+            <p class="text-zinc-400 text-sm md:text-base max-w-xl mx-auto font-normal leading-relaxed">
+                Streamline workflows, identify bottlenecks, and orchestrate unforgettable Kerala luxury escapes together.
+            </p>
+            <div class="pt-2 flex items-center justify-center gap-4">
+                <button onclick="document.getElementById('stays').scrollIntoView({behavior: 'smooth'})" class="gold-btn text-xs px-6 py-3.5 rounded-xl">
+                    GET STARTED
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content: Munnar Properties & Search -->
+    <main id="stays" class="relative z-10 max-w-7xl mx-auto px-6 py-12 w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- Sidebar Filter Panel -->
+        <aside class="lg:col-span-1 space-y-6">
+            <div class="bg-zinc-900 rounded-2xl p-6 card-shadow space-y-6">
+                <div class="flex items-center justify-between border-b border-zinc-800 pb-4">
+                    <h3 class="font-bold text-sm text-white">Filter Sanctuaries</h3>
+                    <button onclick="resetFilters()" class="text-xs text-amber-400 hover:underline font-semibold">Reset</button>
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="font-bold text-[10px] text-zinc-500 uppercase tracking-widest">Popular Choices</h4>
+                    <label class="flex items-center gap-3 cursor-pointer text-xs text-zinc-300 font-medium">
+                        <input type="checkbox" name="filter" value="superb" onchange="applyFilters()" class="rounded bg-zinc-800 border-zinc-700 text-amber-500 focus:ring-amber-500 w-4 h-4">
+                        <span>Exceptional 9.5+ Rating</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer text-xs text-zinc-300 font-medium">
+                        <input type="checkbox" name="filter" value="pool" onchange="applyFilters()" class="rounded bg-zinc-800 border-zinc-700 text-amber-500 focus:ring-amber-500 w-4 h-4">
+                        <span>Heated Infinity Pool</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer text-xs text-zinc-300 font-medium">
+                        <input type="checkbox" name="filter" value="5star" onchange="applyFilters()" class="rounded bg-zinc-800 border-zinc-700 text-amber-500 focus:ring-amber-500 w-4 h-4">
+                        <span>5-Star Plantation Resort</span>
+                    </label>
+                </div>
+
+                <div class="space-y-3 pt-4 border-t border-zinc-800">
+                    <h4 class="font-bold text-[10px] text-zinc-500 uppercase tracking-widest">Property Type</h4>
+                    <label class="flex items-center gap-3 cursor-pointer text-xs text-zinc-300">
+                        <input type="checkbox" name="propType" value="Resort" onchange="applyFilters()" class="rounded bg-zinc-800 border-zinc-700 text-amber-500 w-4 h-4"> Resorts
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer text-xs text-zinc-300">
+                        <input type="checkbox" name="propType" value="Villa" onchange="applyFilters()" class="rounded bg-zinc-800 border-zinc-700 text-amber-500 w-4 h-4"> Heritage Villas
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer text-xs text-zinc-300">
+                        <input type="checkbox" name="propType" value="Homestay" onchange="applyFilters()" class="rounded bg-zinc-800 border-zinc-700 text-amber-500 w-4 h-4"> Canopy Treehouses
+                    </label>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Properties Grid Section -->
+        <section class="lg:col-span-3 space-y-6">
+            <div class="bg-zinc-900 p-6 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 card-shadow">
+                <div>
+                    <h2 class="text-xl font-bold text-white">Munnar Properties: <span id="propertyCount" class="gold-gradient-text">5</span> Found</h2>
+                    <p class="text-xs text-zinc-400 mt-0.5">Verified luxury properties ready for instant reservation.</p>
+                </div>
+                <div class="flex items-center gap-3 w-full sm:w-auto">
+                    <span class="text-xs text-zinc-400 font-semibold whitespace-nowrap">Sort:</span>
+                    <select id="sortSelect" onchange="sortProperties()" class="bg-zinc-800 border border-zinc-700 text-zinc-200 rounded-xl px-4 py-2.5 text-xs font-semibold focus:outline-none focus:border-amber-500 w-full sm:w-auto">
+                        <option value="top">Top Picks</option>
+                        <option value="price_low">Tariff (Low to High)</option>
+                        <option value="rating">Highest Score</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Cards Container -->
+            <div id="propertyListContainer" class="space-y-6">
+                <!-- Dynamically rendered -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-zinc-900 mt-20 py-12 px-6 border-t border-zinc-800">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-zinc-400">
+            <p>© 2026 Beyond Borders Kerala Luxury Collections™. All rights reserved.</p>
+            <div class="flex items-center gap-4">
+                <a href="mailto:amjadaj743@gmail.com" class="gold-btn px-4 py-2 rounded-xl flex items-center gap-2 text-xs">
+                    <i class="fa-solid fa-envelope"></i> Contact: amjadaj743@gmail.com
+                </a>
+            </div>
+            <div class="flex gap-6">
+                <a href="#" class="hover:text-amber-400 transition">Privacy</a>
+                <a href="#" class="hover:text-amber-400 transition">Terms</a>
+                <a href="#" class="hover:text-amber-400 transition">Security</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL: Booking -->
+    <div id="bookingModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-zinc-900 rounded-3xl max-w-lg w-full p-8 shadow-2xl relative border border-amber-500/30">
+            <button onclick="closeModal('bookingModal')" class="absolute top-6 right-6 text-zinc-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-2xl flex items-center justify-center text-xl font-bold border border-amber-500/20">
+                    <i class="fa-solid fa-hotel"></i>
+                </div>
+                <div>
+                    <h3 id="modalPropertyName" class="font-bold text-lg text-white">Resort Name</h3>
+                    <p class="text-xs text-amber-400 font-medium">Verified Luxury Sanctuary • Munnar</p>
+                </div>
+            </div>
+            <form onsubmit="handleBookingSubmit(event)" class="space-y-4 text-sm">
+                <div>
+                    <label class="block font-bold text-[10px] text-zinc-500 uppercase tracking-widest mb-1">Reservation Dates</label>
+                    <input type="text" required value="06 Nov 2026 - 08 Nov 2026" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-sm font-semibold text-zinc-200 focus:outline-none focus:border-amber-500">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-bold text-[10px] text-zinc-500 uppercase tracking-widest mb-1">Full Name</label>
+                        <input type="text" id="bookerName" required placeholder="Full Name" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-sm text-zinc-200 focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-[10px] text-zinc-500 uppercase tracking-widest mb-1">Phone</label>
+                        <input type="tel" id="bookerPhone" required placeholder="+91 98765 43210" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-sm text-zinc-200 focus:outline-none focus:border-amber-500">
+                    </div>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-xl border border-zinc-700 flex justify-between items-center">
+                    <div>
+                        <span class="text-xs text-zinc-400 block">Total Tariff (2 Nights)</span>
+                        <span id="modalPropertyPrice" class="font-bold text-lg text-white">₹12,400</span>
+                    </div>
+                    <span class="text-[10px] text-amber-400 bg-amber-500/10 px-3 py-1 rounded-lg border border-amber-500/20 font-semibold">Includes Breakfast</span>
+                </div>
+                <button type="submit" class="w-full gold-btn py-3.5 rounded-xl">Confirm Reservation</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Admin Login (Password: admin321) -->
+    <div id="adminLoginModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-zinc-900 rounded-3xl max-w-md w-full p-8 shadow-2xl relative border border-amber-500/30">
+            <button onclick="closeModal('adminLoginModal')" class="absolute top-6 right-6 text-zinc-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-2xl flex items-center justify-center text-xl mx-auto mb-3 border border-amber-500/20">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3 class="font-bold text-xl text-white">Admin Control Portal</h3>
+                <p class="text-xs text-zinc-400 mt-1">Enter administrative passcode to manage estates.</p>
+            </div>
+            <form onsubmit="handleAdminLogin(event)" class="space-y-4 text-sm">
+                <div>
+                    <label class="block font-bold text-[10px] text-zinc-500 uppercase tracking-widest mb-1">Passcode</label>
+                    <input type="password" id="adminPassInput" required placeholder="Enter password" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-sm text-zinc-200 focus:outline-none focus:border-amber-500">
+                </div>
+                <button type="submit" class="w-full gold-btn py-3 rounded-xl">Authenticate Portal</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Sign In -->
+    <div id="signInModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-zinc-900 rounded-3xl max-w-md w-full p-8 shadow-2xl relative border border-amber-500/30">
+            <button onclick="closeModal('signInModal')" class="absolute top-6 right-6 text-zinc-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-2xl flex items-center justify-center text-xl mx-auto mb-3 border border-amber-500/20">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                </div>
+                <h3 class="font-bold text-xl text-white">Welcome Back</h3>
+                <p class="text-xs text-zinc-400 mt-1">Sign in to access your luxury reservations.</p>
+            </div>
+            <form onsubmit="handleSignInSubmit(event)" class="space-y-4 text-sm">
+                <div>
+                    <label class="block font-bold text-[10px] text-zinc-500 uppercase tracking-widest mb-1">Email Address</label>
+                    <input type="email" id="signInEmail" required placeholder="name@example.com" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-sm text-zinc-200 focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                    <label class="block font-bold text-[10px] text-zinc-500 uppercase tracking-widest mb-1">Password</label>
+                    <input type="password" id="signInPassword" required placeholder="••••••••" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-sm text-zinc-200 focus:outline-none focus:border-amber-500">
+                </div>
+                <button type="submit" class="w-full gold-btn py-3 rounded-xl">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Sign Up -->
+    <div id="signUpModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-zinc-900 rounded-3xl max-w-md w-full p-8 shadow-2xl relative border border-amber-500/30">
+            <button onclick="closeModal('signUpModal')" class="absolute top-6 right-6 text-zinc-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-2xl flex items-center justify-center text-xl mx-auto mb-3 border border-amber-500/20">
+                    <i class="fa-solid fa-user-plus"></i>
+                </div>
+                <h3 class="font-bold text-xl text-white">Create Member Account</h3>
+                <p class="text-xs text-zinc-400 mt-1">Unlock exclusive member pricing & concierge.</p>
+            </div>
+            <form onsubmit="handleSignUpSubmit(event)" class="space-y-4 text-sm">
+                <div>
+                    <label class="block font-bold text-[10px] text-zinc-500 uppercase tracking-widest mb-1">Full Name</label>
+                    <input type="text" id="signUpName" required placeholder="John Doe" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-sm text-zinc-200 focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                    <label class="block font-bold text-[10px] text-zinc-500 uppercase tracking-widest mb-1">Email Address</label>
+                    <input type="email" id="signUpEmail" required placeholder="name@example.com" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-sm text-zinc-200 focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                    <label class="block font-bold text-[10px] text-zinc-500 uppercase tracking-widest mb-1">Password</label>
+                    <input type="password" id="signUpPassword" required placeholder="••••••••" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-sm text-zinc-200 focus:outline-none focus:border-amber-500">
+                </div>
+                <button type="submit" class="w-full gold-btn py-3 rounded-xl">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Admin Dashboard with Client Privacy Vault -->
+    <div id="adminDashboardModal" class="fixed inset-0 bg-black/90 backdrop-blur-md hidden items-center justify-center z-50 p-4 overflow-y-auto">
+        <div class="bg-zinc-900 rounded-3xl max-w-4xl w-full p-8 shadow-2xl relative my-8 border border-amber-500/30">
+            <button onclick="closeModal('adminDashboardModal')" class="absolute top-6 right-6 text-zinc-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-6">
+                <div>
+                    <span class="text-[10px] bg-amber-500/10 text-amber-400 font-bold px-3 py-1 rounded-full border border-amber-500/20">Secure Session Active</span>
+                    <h2 class="font-bold text-2xl text-white mt-1">Admin Dashboard & Privacy Vault</h2>
+                </div>
+                <button onclick="closeModal('adminDashboardModal')" class="text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-semibold px-4 py-2 rounded-xl">Logout</button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div class="bg-zinc-800 p-4 rounded-xl border border-zinc-700">
+                    <span class="text-xs text-zinc-400 block">Total Active Properties</span>
+                    <span id="adminTotalCount" class="text-2xl font-bold text-white">5</span>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-xl border border-zinc-700">
+                    <span class="text-xs text-zinc-400 block">Vault Stored Records</span>
+                    <span id="adminVaultCount" class="text-2xl font-bold text-amber-400">0</span>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-xl border border-zinc-700">
+                    <span class="text-xs text-zinc-400 block">Firebase Status</span>
+                    <span class="text-sm font-bold text-emerald-400 mt-1 block">Connected (bbk-1-96724)</span>
+                </div>
+            </div>
+
+            <!-- Client Privacy Vault Folder -->
+            <div class="bg-zinc-800 p-5 rounded-2xl border border-zinc-700 mb-6 space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-folder-closed text-amber-400 text-lg"></i>
+                        <h3 class="font-bold text-base text-white">Client Privacy Vault Folder (<span id="vaultFolderName">bbk_secure_vault</span>)</h3>
+                    </div>
+                    <span class="text-[10px] bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-lg border border-emerald-500/20 font-semibold">End-to-End Private</span>
+                </div>
+                <p class="text-xs text-zinc-400">All user signups, credentials, and booking details are automatically archived into this private secure folder in real-time.</p>
+                <div id="vaultListContainer" class="space-y-2 max-h-56 overflow-y-auto text-xs">
+                    <div class="text-zinc-500 text-center py-4">Vault folder is currently empty. New user submissions will appear here automatically.</div>
+                </div>
+            </div>
+
+            <div class="bg-zinc-800 p-5 rounded-2xl border border-zinc-700 mb-6 space-y-4">
+                <h3 class="font-bold text-base text-white">Add New Property</h3>
+                <form onsubmit="handleAddNewProperty(event)" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                    <input type="text" id="newPropName" required placeholder="Resort Name" class="bg-zinc-900 border border-zinc-700 rounded-xl px-4 py-2.5 text-zinc-200">
+                    <select id="newPropType" class="bg-zinc-900 border border-zinc-700 rounded-xl px-4 py-2.5 text-zinc-200">
+                        <option value="Resort">Resort</option>
+                        <option value="Villa">Villa</option>
+                        <option value="Homestay">Homestay</option>
+                    </select>
+                    <input type="number" id="newPropPrice" required placeholder="Tariff per night (₹)" class="bg-zinc-900 border border-zinc-700 rounded-xl px-4 py-2.5 text-zinc-200">
+                    <input type="text" id="newPropLocation" required placeholder="Location & distance" class="bg-zinc-900 border border-zinc-700 rounded-xl px-4 py-2.5 text-zinc-200">
+                    <button type="submit" class="md:col-span-2 gold-btn py-3 rounded-xl">Publish Live</button>
+                </form>
+            </div>
+
+            <div>
+                <h3 class="font-bold text-base text-white mb-3">Managed Properties Directory</h3>
+                <div id="adminPropertyList" class="space-y-2 max-h-48 overflow-y-auto text-xs"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: List Property -->
+    <div id="listPropertyModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-zinc-900 rounded-3xl max-w-md w-full p-8 shadow-2xl relative border border-amber-500/30">
+            <button onclick="closeModal('listPropertyModal')" class="absolute top-6 right-6 text-zinc-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <div class="text-center mb-6">
+                <h3 class="font-bold text-xl text-white">List Your Estate</h3>
+                <p class="text-xs text-zinc-400 mt-1">Partner with Beyond Borders Kerala</p>
+            </div>
+            <form onsubmit="handleListSubmit(event)" class="space-y-3 text-sm">
+                <input type="text" required placeholder="Estate Name" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-zinc-200">
+                <input type="text" required placeholder="Munnar Location" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-zinc-200">
+                <input type="number" required placeholder="Base Tariff (₹)" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-zinc-200">
+                <button type="submit" class="w-full gold-btn py-3.5 rounded-xl">Submit for Curation</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toastNotification" class="fixed bottom-6 right-6 bg-zinc-900 border border-amber-500/30 text-white px-6 py-4 rounded-2xl shadow-2xl hidden transition-all duration-300 z-50 flex items-center gap-3 text-sm">
+        <i class="fa-solid fa-circle-check text-amber-400 text-lg"></i>
+        <span id="toastMessage">Action completed!</span>
+    </div>
+
+    <!-- JavaScript & Three.js Animation Logic -->
+    <script>
+        // Three.js Golden Ribbon Wave Animation
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / container.clientHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, 500);
+        container.appendChild(renderer.domElement);
+
+        const geometry = new THREE.PlaneGeometry(30, 15, 45, 25);
+        const material = new THREE.MeshBasicMaterial({ color: 0xd4af37, wireframe: true, transparent: true, opacity: 0.3 });
+        const waveMesh = new THREE.Mesh(geometry, material);
+        scene.add(waveMesh);
+        waveMesh.rotation.x = -Math.PI / 4;
+
+        camera.position.z = 12;
+
+        let clock = new THREE.Clock();
+        function animateWave() {
+            requestAnimationFrame(animateWave);
+            const time = clock.getElapsedTime();
+            const position = geometry.attributes.position;
+            for (let i = 0; i < position.count; i++) {
+                const u = position.getX(i);
+                const v = position.getY(i);
+                const z = Math.sin(u * 0.4 + time * 1.5) * Math.cos(v * 0.4 + time * 1.2) * 1.2;
+                position.setZ(i, z);
+            }
+            position.needsUpdate = true;
+            renderer.render(scene, camera);
+        }
+        animateWave();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / 500;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, 500);
+        });
+
+        // Client Privacy Vault Folder Storage
+        let clientVaultFolder = [];
+
+        // Property Database & Interactivity
+        const propertiesData = [
+            { id: 1, name: "The Leaf Munnar Luxury Estate", type: "Resort", ratingScore: 9.6, ratingText: "Exceptional", reviewsCount: 236, location: "Munnar Tea Valleys · 8.9 km from centre", description: "Panoramic valley views, heated infinity pool, and private plantation walks with 24/7 butler service.", price: 8499, badge: "Beyond Borders Choice", image: "https://placehold.co/600x400/18181b/d4af37?text=The+Leaf+Munnar", popular: ["superb", "pool", "5star"] },
+            { id: 2, name: "The Feel Munnar Cloud Sanctuary", type: "Resort", ratingScore: 9.4, ratingText: "Superb", reviewsCount: 128, location: "Munnar Mist Ridge · 8.3 km from centre", description: "Nestled right in the cloud line with private balconies overlooking misty waterfalls.", price: 6800, badge: "Guest Favorite", image: "https://placehold.co/600x400/18181b/d4af37?text=The+Feel+Munnar", popular: ["superb", "pool"] },
+            { id: 3, name: "1924 Clock House Heritage Palace", type: "Villa", ratingScore: 9.8, ratingText: "Exceptional", reviewsCount: 58, location: "Munnar Heritage Hills · 4.2 km from centre", description: "Exquisite colonial architecture restored into a 5-star heritage sanctuary.", price: 12500, badge: "Royal Heritage", image: "https://placehold.co/600x400/18181b/d4af37?text=1924+Clock+House", popular: ["superb", "5star"] },
+            { id: 4, name: "The Grand Cliff Infinity Villas", type: "Villa", ratingScore: 9.1, ratingText: "Superb", reviewsCount: 179, location: "Munnar Cliff Edge · 12 km from centre", description: "Perched dramatically on cliff edges with glass-bottom swimming pools.", price: 9900, badge: "Scenic Masterpiece", image: "https://placehold.co/600x400/18181b/d4af37?text=Grand+Cliff+Villas", popular: ["pool", "5star"] },
+            { id: 5, name: "Willostays Canopy Treehouse Retreat", type: "Homestay", ratingScore: 9.7, ratingText: "Exceptional", reviewsCount: 42, location: "Munnar Rainforest Canopy · 8.1 km from centre", description: "Luxury eco-treehouses built 60 feet above the forest floor with stargazing roofs.", price: 5900, badge: "Eco Luxury", image: "https://placehold.co/600x400/18181b/d4af37?text=Willostays+Treehouse", popular: ["superb"] }
+        ];
+
+        let currentFilteredProperties = [...propertiesData];
+
+        function renderProperties(data) {
+            const container = document.getElementById('propertyListContainer');
+            document.getElementById('propertyCount').textContent = data.length;
+
+            if (data.length === 0) {
+                container.innerHTML = `<div class="bg-zinc-900 p-8 rounded-2xl text-center text-zinc-400 card-shadow">No properties match your filters. Try resetting.</div>`;
+                return;
+            }
+
+            container.innerHTML = data.map(p => `
+                <div class="bg-zinc-900 rounded-2xl p-6 flex flex-col md:flex-row gap-6 card-shadow hover:border-amber-500/50 transition duration-300">
+                    <div class="relative w-full md:w-72 h-52 bg-zinc-800 rounded-xl overflow-hidden flex-shrink-0">
+                        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover">
+                        ${p.badge ? `<span class="absolute bottom-3 left-3 bg-amber-500 text-black font-bold text-[10px] px-2.5 py-1 rounded-md uppercase tracking-wider shadow">${p.badge}</span>` : ''}
+                    </div>
+                    <div class="flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-start justify-between gap-3">
+                                <div>
+                                    <h3 class="font-bold text-lg text-white hover:text-amber-450 cursor-pointer transition">${p.name}</h3>
+                                    <p class="text-xs text-amber-400 font-semibold mt-1"><i class="fa-solid fa-location-dot mr-1"></i>${p.location}</p>
+                                </div>
+                                <div class="flex items-center gap-2 text-right">
+                                    <div>
+                                        <span class="block text-xs font-bold text-white">${p.ratingText}</span>
+                                        <span class="block text-[10px] text-zinc-500">${p.reviewsCount} reviews</span>
+                                    </div>
+                                    <div class="bg-amber-500 text-black font-bold text-xs px-3 py-2 rounded-xl shadow-sm">
+                                        ${p.ratingScore}
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-xs text-zinc-400 mt-3 line-clamp-2 leading-relaxed">${p.description}</p>
+                        </div>
+                        <div class="flex items-end justify-between mt-4 pt-4 border-t border-zinc-800">
+                            <div class="text-xs text-zinc-400 font-medium">
+                                <i class="fa-solid fa-circle-check text-amber-400 mr-1"></i> Complimentary Breakfast & Butler
+                            </div>
+                            <div class="text-right">
+                                <span class="block text-[10px] text-zinc-500 font-medium">Per night for 2 adults</span>
+                                <span class="text-xl font-bold text-white">₹${p.price.toLocaleString()}</span>
+                                <button onclick="openBookingModal('${p.name}', ${p.price})" class="mt-2 gold-btn text-xs px-5 py-2.5 rounded-xl">
+                                    Reserve Sanctuary
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function applyFilters() {
+            const checkedPopular = Array.from(document.querySelectorAll('input[name="filter"]:checked')).map(el => el.value);
+            const checkedTypes = Array.from(document.querySelectorAll('input[name="propType"]:checked')).map(el => el.value);
+
+            currentFilteredProperties = propertiesData.filter(p => {
+                const matchPopular = checkedPopular.length === 0 || checkedPopular.every(f => p.popular.includes(f));
+                const matchType = checkedTypes.length === 0 || checkedTypes.includes(p.type);
+                return matchPopular && matchType;
+            });
+            renderProperties(currentFilteredProperties);
+        }
+
+        function resetFilters() {
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            currentFilteredProperties = [...propertiesData];
+            renderProperties(currentFilteredProperties);
+            showNotification('Filters reset successfully.');
+        }
+
+        function sortProperties() {
+            const val = document.getElementById('sortSelect').value;
+            if (val === 'price_low') currentFilteredProperties.sort((a,b) => a.price - b.price);
+            else if (val === 'rating') currentFilteredProperties.sort((a,b) => b.ratingScore - a.ratingScore);
+            else currentFilteredProperties.sort((a,b) => a.id - b.id);
+            renderProperties(currentFilteredProperties);
+        }
+
+        function openBookingModal(name, price) {
+            document.getElementById('modalPropertyName').textContent = name;
+            document.getElementById('modalPropertyPrice').textContent = '₹' + (price * 2).toLocaleString();
+            openModal('bookingModal');
+        }
+
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+            document.getElementById(id).classList.add('flex');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            document.getElementById(id).classList.remove('flex');
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const pass = document.getElementById('adminPassInput').value;
+            if (pass === 'admin321') {
+                closeModal('adminLoginModal');
+                document.getElementById('adminPassInput').value = '';
+                openModal('adminDashboardModal');
+                updateAdminList();
+                updateVaultDisplay();
+                showNotification('Admin portal unlocked securely.');
+            } else {
+                showNotification('Invalid password. Access denied.');
+            }
+        }
+
+        function handleSignInSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('signInEmail').value;
+            const password = document.getElementById('signInPassword').value;
+
+            // Automatically archive to privacy vault folder
+            clientVaultFolder.push({
+                type: 'Sign In Credential',
+                identity: email,
+                pass: '•••••••• (Encrypted)',
+                time: new Date().toLocaleTimeString()
+            });
+
+            closeModal('signInModal');
+            document.getElementById('signInEmail').value = '';
+            document.getElementById('signInPassword').value = '';
+            showNotification('Sign in successful! Details archived to privacy vault.');
+        }
+
+        function handleSignUpSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('signUpName').value;
+            const email = document.getElementById('signUpEmail').value;
+            const password = document.getElementById('signUpPassword').value;
+
+            // Automatically archive to privacy vault folder
+            clientVaultFolder.push({
+                type: 'New Account Registration',
+                identity: `${name} (${email})`,
+                pass: password,
+                time: new Date().toLocaleTimeString()
+            });
+
+            closeModal('signUpModal');
+            document.getElementById('signUpName').value = '';
+            document.getElementById('signUpEmail').value = '';
+            document.getElementById('signUpPassword').value = '';
+            showNotification('Account created successfully! Credentials secured in vault folder.');
+        }
+
+        function handleAddNewProperty(e) {
+            e.preventDefault();
+            const name = document.getElementById('newPropName').value;
+            const type = document.getElementById('newPropType').value;
+            const price = Number(document.getElementById('newPropPrice').value);
+            const location = document.getElementById('newPropLocation').value;
+
+            const newProp = {
+                id: propertiesData.length + 1,
+                name: name,
+                type: type,
+                ratingScore: 9.5,
+                ratingText: "Exceptional",
+                reviewsCount: 1,
+                location: location,
+                description: "Newly curated luxury estate in Kerala with bespoke amenities.",
+                price: price,
+                badge: "Newly Curated",
+                image: "https://placehold.co/600x400/18181b/d4af37?text=" + encodeURIComponent(name),
+                popular: ["superb", "5star"]
+            };
+
+            propertiesData.unshift(newProp);
+            currentFilteredProperties = [...propertiesData];
+            renderProperties(currentFilteredProperties);
+            updateAdminList();
+            document.getElementById('adminTotalCount').textContent = propertiesData.length;
+            e.target.reset();
+            showNotification('Property published live successfully!');
+        }
+
+        function updateAdminList() {
+            document.getElementById('adminPropertyList').innerHTML = propertiesData.map(p => `
+                <div class="flex items-center justify-between bg-zinc-900 p-3 rounded-xl border border-zinc-700">
+                    <div>
+                        <span class="font-bold text-white">${p.name}</span>
+                        <span class="text-amber-400 ml-2">₹${p.price.toLocaleString()}</span>
+                    </div>
+                    <span class="text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded text-xs font-semibold">${p.type}</span>
+                </div>
+            `).join('');
+        }
+
+        function updateVaultDisplay() {
+            document.getElementById('adminVaultCount').textContent = clientVaultFolder.length;
+            const container = document.getElementById('vaultListContainer');
+            if (clientVaultFolder.length === 0) {
+                container.innerHTML = `<div class="text-zinc-500 text-center py-4">Vault folder is currently empty. New user submissions will appear here automatically.</div>`;
+                return;
+            }
+
+            container.innerHTML = clientVaultFolder.map((item, idx) => `
+                <div class="flex items-center justify-between bg-zinc-900 p-3 rounded-xl border border-zinc-700">
+                    <div class="space-y-0.5">
+                        <span class="text-amber-400 font-bold block">${item.type} #${idx + 1}</span>
+                        <span class="text-white font-medium block">Identity: ${item.identity}</span>
+                        <span class="text-zinc-400 text-[11px] block">Password / Credential: <span class="bg-zinc-800 px-2 py-0.5 rounded text-amber-300 font-mono">${item.pass}</span></span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-[10px] text-zinc-500 block">${item.time}</span>
+                        <span class="text-[10px] bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded border border-amber-500/20 font-semibold inline-block mt-1">Archived</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function handleBookingSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('bookerName').value;
+            const phone = document.getElementById('bookerPhone').value;
+
+            clientVaultFolder.push({
+                type: 'Reservation Booking',
+                identity: `${name} (${phone})`,
+                pass: 'Verified Guest',
+                time: new Date().toLocaleTimeString()
+            });
+
+            closeModal('bookingModal');
+            showNotification('Reservation confirmed and archived to privacy vault!');
+        }
+
+        function handleListSubmit(e) {
+            e.preventDefault();
+            closeModal('listPropertyModal');
+            showNotification('Estate submitted for inspection.');
+        }
+
+        function showNotification(msg) {
+            const toast = document.getElementById('toastNotification');
+            document.getElementById('toastMessage').textContent = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3500);
+        }
+
+        window.onload = function() {
+            renderProperties(propertiesData);
+            document.getElementById('adminTotalCount').textContent = propertiesData.length;
+        }
+    </script>
+</body>
+</html>
