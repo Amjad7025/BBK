@@ -1,0 +1,150 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AnimeVerse - Watch Anime</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header class="navbar">
+    <a href="#" class="logo">
+      ANIME<span>VERSE</span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#browse">Browse</a>
+      <a href="#popular">Popular</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button class="icon-btn" id="searchToggle" aria-label="Search">⌕</button>
+      <button class="login-btn">Sign In</button>
+      <button class="menu-btn" id="menuBtn">☰</button>
+    </div>
+  </header>
+
+  <!-- Search Bar -->
+  <div class="search-panel" id="searchPanel">
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search anime..."
+      autocomplete="off"
+    />
+  </div>
+
+  <!-- Hero -->
+  <main id="home">
+    <section class="hero">
+      <div class="hero-overlay"></div>
+
+      <div class="hero-content">
+        <p class="hero-label">#1 TRENDING ANIME</p>
+        <h1>Discover Your<br><span>Next Adventure</span></h1>
+        <p class="hero-description">
+          Explore incredible stories, unforgettable characters,
+          and worlds beyond imagination.
+        </p>
+
+        <div class="hero-buttons">
+          <button class="primary-btn" id="heroWatchBtn">▶ Watch Now</button>
+          <button class="secondary-btn" id="heroInfoBtn">ⓘ More Info</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Browse -->
+    <section class="section" id="browse">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">EXPLORE</p>
+          <h2>Browse Anime</h2>
+        </div>
+      </div>
+
+      <div class="genre-list" id="genreList">
+        <button class="genre-btn active" data-genre="All">All</button>
+        <button class="genre-btn" data-genre="Action">Action</button>
+        <button class="genre-btn" data-genre="Fantasy">Fantasy</button>
+        <button class="genre-btn" data-genre="Romance">Romance</button>
+        <button class="genre-btn" data-genre="Comedy">Comedy</button>
+        <button class="genre-btn" data-genre="Adventure">Adventure</button>
+      </div>
+
+      <div class="anime-grid" id="animeGrid"></div>
+      <p class="empty-message" id="emptyMessage">No anime found.</p>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+      <div>
+        <p class="section-kicker">STAY UPDATED</p>
+        <h2>Never miss a new episode.</h2>
+        <p>Get updates about new anime and releases.</p>
+      </div>
+
+      <form id="newsletterForm">
+        <input type="email" placeholder="Enter your email" required />
+        <button type="submit" class="primary-btn">Subscribe</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Anime Details Modal -->
+  <div class="modal hidden" id="animeModal">
+    <div class="modal-backdrop" data-close="modal"></div>
+
+    <div class="modal-box">
+      <button class="close-btn" id="closeModal">×</button>
+
+      <img id="modalImage" src="" alt="Anime poster" />
+
+      <div class="modal-details">
+        <p class="section-kicker" id="modalGenre"></p>
+        <h2 id="modalTitle"></h2>
+        <p class="modal-meta" id="modalMeta"></p>
+        <p id="modalDescription"></p>
+
+        <button class="primary-btn" id="modalWatchBtn">▶ Watch Episode 1</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Video Player Modal -->
+  <div class="modal hidden" id="videoModal">
+    <div class="modal-backdrop" data-close="video"></div>
+
+    <div class="video-box">
+      <button class="close-btn" id="closeVideo">×</button>
+      <h2 id="videoTitle">Now Playing</h2>
+
+      <video id="videoPlayer" controls>
+        <source
+          src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+          type="video/mp4"
+        />
+        Your browser does not support video playback.
+      </video>
+
+      <p class="demo-note">
+        Demo video player. Replace this with content you own or are licensed to stream.
+      </p>
+    </div>
+  </div>
+
+  <footer>
+    <div class="logo">ANIME<span>VERSE</span></div>
+    <p>© 2026 AnimeVerse. A fan-made website prototype.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
